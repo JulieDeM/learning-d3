@@ -45,9 +45,13 @@ var x = d3.scale.linear()
 						return d.value;
 					})])//the function here helps the graph use the array of objects from data above
 					.range([0, width]);
-var y = d3.scale.linear()
-					.domain([0, data.length])
-					.range([0, height]);
+var y = d3.scale.ordinal()
+					// .domain([0, data.length])//individual piece of data
+						.domain(data.map(function (entry){//entry represents each item in the array
+							return entry.key;
+						}))
+					.rangeBands([0, height]);//when using oridinal can NOT USE .range, need to use .rangeBands
+// console.log(y("Cream"));
 var svg = d3.select('body').append('svg')
 						.attr('id', 'chart')
 						.attr('width', w)
@@ -64,14 +68,15 @@ function plot(params){
 				.classed('bar', true)
 				.attr('class', 'bar')
 				.attr('x', 0)
-				.attr('y', function(d,i){
-					return y(i);
+				.attr('y', function(d,i){//i is index, want to use d for data d.key gives us the words
+					return y(d.key);
 				})
 				.attr('width', function(d,i){
 					return x(d.value);
 				})
 				.attr('height', function(d,i){
-					return y(1)-3;//-3 is the space between the bars
+					// return y(1)-3;//-3 is the space between the bars
+					return y.rangeBand()-1;
 				})
 		this.selectAll(".bar-label")
 				.data(params.data)
@@ -83,10 +88,11 @@ function plot(params){
 						})
 						.attr('dx', -4)//-4 here nudges the label on graph 4 px from the end
 						.attr('y', function(d,i){
-							return y(i);
+							return y(d.key);
 						})
 						.attr('dy', function(d,i){ //allows us to nudge y value
-							return y(1)/1.5+2 //return y at half way point
+							// return y(1)/1.5+2 //return y at half way point
+							return y.rangeBand()/1.5+2
 						})
 						.text(function(d,i){
 							return d.value;//.value changes it from [object object] to the value of the key value pair
