@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+
+  </body>
+  <script type="text/javascript">
+  var data = [132, 71, 337,93, 78,43,20,16, 30,8,17,21];
+  // console.log('hello');
+  var dataMinValue = d3.min(data);
+  // console.log(dataMinValue);
+
+  var dataMaxValue = d3.max(data);
+  // console.log(dataMaxValue);
+
+  var dataLoHiValue = d3.extent(data);
+  // console.log(dataLoHiValue);
+
+
+  var donut = {key: "glazed", value: 132};
+  // console.log(donut.key);
+
+  var dataGreaterThan50 = data.filter(function(entry){
+    //this will return true or false if data is greater than 50
+    return entry > 50;
+  });
+  // console.log("data greater than 50:", dataGreaterThan50);
+
+  var donuts = [
+    {key: "Glazed", 		value: 132},
+    {key: "Jelly", 			value: 71},
+    {key: "Holes", 			value: 337},
+    {key: "Sprinkles",	value: 93},
+    {key: "Crumb", 			value: 78},
+    {key: "Chocolate", 	value: 43},
+    {key: "Coconut",		value: 20},
+    {key: "Cream", 			value: 16},
+    {key: "Cruller", 		value: 30},
+    {key: "Eclair",			value: 8},
+    {key: "Fritter", 		value: 17},
+    {key: "Bearclaw",		value: 21}
+  ];
+  // console.log(donuts[1].key, donuts[1].value);
+
+  for (var i = 0;  i < donuts.length; i++) {
+    // console.log(donuts[i].key, donuts[i].value);
+  }
+  console.log("**************************");
+  donuts.forEach(function(entry){
+    // console.log(entry.key, entry.value);
+  });
+
+  //*************
+  var donutsGreaterThan50 = donuts.filter(function(entry){
+    return entry.value > 50;
+  });
+  // console.log("donuts greater than 50:", donutsGreaterThan50);
+
+  //************
+  //the bottom can reformat the donuts array of objects to change the key and value names (very useful)
+  var reformattedDonuts = donuts.map (function(entry){
+    return {
+      donut : entry.key,
+      qty: entry.value
+    };
+  });
+  reformattedDonuts.forEach(function(entry){
+    // console.log(entry);
+  });
+
+  //**************
+  var donutsMinValue = d3.min(donuts, function(d){
+    return d.value;
+  });
+  var donutsMaxValue = d3.max(donuts, function(d){
+    return d.value;
+  });
+  var donutsLoHiValue = d3.extent(donuts, function(d){
+    return d.value;
+  });
+  console.log(donutsLoHiValue, donutsMinValue, donutsMaxValue);
+
+  </script>
+</html>
