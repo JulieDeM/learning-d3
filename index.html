@@ -21,9 +21,29 @@ var margin = {
 };
 var width = w - margin.left - margin.right;
 var height = h - margin.top - margin.bottom;
-var data = [132, 71, 337,93, 78,43,20,16, 30,8,17,21];
+// var data = [132, 71, 337,93, 78,43,20,16, 30,8,17,21];//one dimensional data set
+var data = [
+	{key: "Glazed", 		value: 132},
+	{key: "Jelly", 			value: 71},
+	{key: "Holes", 			value: 337},
+	{key: "Sprinkles",	value: 93},
+	{key: "Crumb", 			value: 78},
+	{key: "Chocolate", 	value: 43},
+	{key: "Coconut",		value: 20},
+	{key: "Cream", 			value: 16},
+	{key: "Cruller", 		value: 30},
+	{key: "Eclair",			value: 8},
+	{key: "Fritter", 		value: 17},
+	{key: "Bearclaw",		value: 21}
+];
+
+
+
+
 var x = d3.scale.linear()
-					.domain([0, d3.max(data)])
+					.domain([0, d3.max(data, function (d){//d is individual piece of data looking at
+						return d.value;
+					})])//the function here helps the graph use the array of objects from data above
 					.range([0, width]);
 var y = d3.scale.linear()
 					.domain([0, data.length])
@@ -48,7 +68,7 @@ function plot(params){
 					return y(i);
 				})
 				.attr('width', function(d,i){
-					return x(d);
+					return x(d.value);
 				})
 				.attr('height', function(d,i){
 					return y(1)-3;//-3 is the space between the bars
@@ -59,7 +79,7 @@ function plot(params){
 						.append('text')
 						.classed('bar-label', true)
 						.attr('x', function(d, i){ //this adds labels to the bar graph
-							return x(d); //need to set class in css to text-anchor:end to have data labels in graphs
+							return x(d.value); //need to set class in css to text-anchor:end to have data labels in graphs
 						})
 						.attr('dx', -4)//-4 here nudges the label on graph 4 px from the end
 						.attr('y', function(d,i){
@@ -69,7 +89,7 @@ function plot(params){
 							return y(1)/1.5+2 //return y at half way point
 						})
 						.text(function(d,i){
-							return d;
+							return d.value;//.value changes it from [object object] to the value of the key value pair
 						});
 }
 plot.call( chart,{ //call allowed us to set this keyword to svg
